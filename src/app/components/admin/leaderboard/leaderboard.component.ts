@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 interface Quiz {
   id: number;
   title: string;
@@ -12,7 +13,7 @@ interface LeaderboardEntry {
 
 @Component({
   selector: 'app-leaderboard',
-  imports: [FormsModule],
+  imports: [FormsModule,CommonModule],
   templateUrl: './leaderboard.component.html',
   styleUrl: './leaderboard.component.css'
 })

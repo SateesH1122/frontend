@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
+
 interface Question {
   text: string;
   type: 'mcq' | 'truefalse';
@@ -10,12 +11,12 @@ interface Question {
 
 @Component({
   selector: 'app-create-quiz',
-  imports: [CommonModule , FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './create-quiz.component.html',
-  styleUrl: './create-quiz.component.css'
+  styleUrls: ['./create-quiz.component.css']
 })
 export class CreateQuizComponent {
-  showModal = false;
+  showModal = true;
   quizTitle = '';
   quizDescription = '';
   questions: Question[] = [];
@@ -32,17 +33,25 @@ export class CreateQuizComponent {
     this.questions.push({
       text: '',
       type: 'mcq',
-      options: ['', '', '', ''],
+      options: ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
       correctAnswer: ''
     });
   }
+
+  // updateOptions(index: number, options: string[]) {
+  //   this.questions[index].options = options;
+  // }
 
   updateOptions(index: number) {
     if (this.questions[index].type === 'truefalse') {
       this.questions[index].options = ['True', 'False'];
     } else {
-      this.questions[index].options = ['', '', '', ''];
+      this.questions[index].options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
     }
+  }
+
+  deleteQuestion(index: number) {
+    this.questions.splice(index, 1);
   }
 
   saveQuiz() {
@@ -53,5 +62,4 @@ export class CreateQuizComponent {
     });
     this.closeModal();
   }
-
 }

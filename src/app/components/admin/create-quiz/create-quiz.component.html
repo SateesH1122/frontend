@@ -1,31 +1,34 @@
 <div class="modal" *ngIf="showModal">
-    <div class="modal-content">
+  <div class="modal-content">
+    <div class="quiz-card">
       <h2>Create Quiz</h2>
       <label>Title:</label>
       <input type="text" [(ngModel)]="quizTitle">
       <label>Description:</label>
       <textarea [(ngModel)]="quizDescription"></textarea>
-  
-      <button (click)="addQuestion()">+ Add Question</button>
-  
-      <div *ngFor="let question of questions; let i = index">
-        <label>Question {{ i + 1 }}:</label>
-        <input type="text" [(ngModel)]="question.text">
-  
-        <label>Type:</label>
-        <select [(ngModel)]="question.type" (change)="updateOptions(i)">
-          <option value="mcq">MCQ</option>
-          <option value="truefalse">True/False</option>
-        </select>
-  
-        <div *ngFor="let option of question.options; let j = index">
-          <input type="radio" [name]="'question-' + i" [(ngModel)]="question.correctAnswer" [value]="option">
-          <input type="text" [(ngModel)]="question.options[j]">
-        </div>
-      </div>
-  
-      <button (click)="saveQuiz()">Save Quiz</button>
-      <button (click)="closeModal()">Cancel</button>
+      <!-- <button class="add-question-btn" (click)="addQuestion()">+ Add Question</button> -->
     </div>
+
+    <div *ngFor="let question of questions; let i = index" class="question-card">
+      <button class="delete-btn" (click)="deleteQuestion(i)">X</button>
+      <label>Question {{ i + 1 }}:</label>
+      <input type="text" [(ngModel)]="question.text">
+
+      <label>Type:</label>
+      <select [(ngModel)]="question.type" (change)="updateOptions(i)">
+        <option value="mcq">MCQ</option>
+        <option value="truefalse">True/False</option>
+      </select>
+
+      <div class="option-group" *ngFor="let option of question.options; let j = index">
+        <input type="radio" [name]="'question-' + i" [(ngModel)]="question.correctAnswer" [value]="option">
+        <input type="text" [(ngModel)]="question.options[j]">
+
+        <!-- <input type="text" [(ngModel)]="question.options[j]" (input)="updateOptions(i, j, $event.target.value)"> -->
+      </div>
+    </div>
+    <button class="add-question-btn" (click)="addQuestion()">Add Question</button>
+    <button class="save-btn" (click)="saveQuiz()">Save Quiz</button>
+    <button class="cancel-btn" (click)="closeModal()">Cancel</button>
   </div>
-  
+</div>

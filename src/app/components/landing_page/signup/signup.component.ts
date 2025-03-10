@@ -7,8 +7,12 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class SignupComponent {
   @Output() switchToLogin = new EventEmitter<void>();
-
+  
   goToLogin() {
+    this.switchToLogin.emit();
+  }
+  successRegister() {
+    alert('Registration successful!');
     this.switchToLogin.emit();
   }
 }

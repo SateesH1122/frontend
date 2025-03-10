@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   imports: [],
@@ -7,13 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  openCreateQuizModal() {
-    // Logic to open the Create Quiz popup
-    console.log('Open Create Quiz Modal');
-  }
-
-  openLeaderboard() {
-    // Logic to navigate to the leaderboard page
-    console.log('Open Leaderboard');
+  constructor(private router: Router) {}
+ 
+  navigateTo(route: string){
+   this.router.navigate([route]);
   }
 }
