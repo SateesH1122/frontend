@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from "./components/footer/footer.component";
-import { NavbarComponent } from "./components/navbar/navbar.component";
-import { HomeComponent } from "./components/home/home.component";
-import { AboutComponent } from "./components/about/about.component";
-import { ContactComponent } from "./components/contact/contact.component";
+import { CreatequizComponent } from "./components/createquiz/createquiz.component";
+import { LandingPageComponent } from "./components/landing_page/landing-page/landing-page.component";
+import { DashboardComponent } from "./components/admin/dashboard/dashboard.component";
+import { CreateQuizComponent } from "./components/admin/create-quiz/create-quiz.component";
+import { LeaderboardComponent } from "./components/admin/leaderboard/leaderboard.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FooterComponent, NavbarComponent, HomeComponent, AboutComponent, ContactComponent],
+  imports: [RouterOutlet, LandingPageComponent, DashboardComponent, CreateQuizComponent, LeaderboardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

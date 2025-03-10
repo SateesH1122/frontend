@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Quiz</title>
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #3b82f6;
+            color: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        header button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        main {
+            max-width: 800px;
+            margin: 32px auto;
+            padding: 24px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 24px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        form .form-group {
+            margin-bottom: 16px;
+        }
+        form label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        form input, form textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+        }
+        form textarea {
+            resize: vertical;
+        }
+        h3 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        .question-container {
+            padding: 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .question-header h4 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .question-header button {
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .options-container {
+            margin-bottom: 16px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .option input[type="radio"] {
+            margin-right: 8px;
+        }
+        .add-option, .add-question, .submit-quiz {
+            display: flex;
+            align-items: center;
+            background: none;
+            border: none;
+            color: #3b82f6;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+        .submit-quiz {
+            background-color: #ec4899;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Quizify</h1>
+    </header>
+    <main>
+        <h2>Create quiz!</h2>
+        <form id="quiz-form">
+            <div class="form-group">
+                <label for="name">Quiz Name*</label>
+                <input type="text" id="name" value="Globe Trotter">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description">How well do you know our world? Put your geography skills to the test!</textarea>
+            </div>
+            <div class="form-group">
+                <label for="category">Category*</label>
+                <input type="text" id="category" value="Geography">
+            </div>
+            <h3>Questions</h3>
+            <div id="questions-container">
+                <!-- Questions will be dynamically added here -->
+            </div>
+            <button type="button" class="add-question" onclick="addQuestion()">+ Add Question</button>
+            <button type="submit" class="submit-quiz">Submit Quiz</button>
+        </form>
+    </main>
+    
+    <script>
+        let questionCount = 0;
+
+        function addQuestion() {
+            questionCount++;
+            const questionContainer = document.createElement("div");
+            questionContainer.className = "question-container";
+            questionContainer.dataset.questionId = questionCount;
+
+            questionContainer.innerHTML = `
+                <div class="question-header">
+                    <h4>Question ${questionCount}</h4>
+                    <button type="button" onclick="removeQuestion(${questionCount})">🗑</button>
+                </div>
+                <div class="form-group">
+                    <label>Question*</label>
+                    <input type="text" name="question${questionCount}" required>
+                </div>
+                <div class="form-group">
+                    <label>Options</label>
+                    <div class="options-container" id="options-${questionCount}">
+                        ${createOptionHTML(questionCount, 1)}
+                    </div>
+                </div>
+                <button type="button" class="add-option" onclick="addOption(${questionCount})">+ Add Option</button>
+            `;
+
+            document.getElementById("questions-container").appendChild(questionContainer);
+        }
+
+        function addOption(questionId) {
+            const optionsContainer = document.getElementById(`options-${questionId}`);
+            const optionCount = optionsContainer.childElementCount + 1;
+            optionsContainer.innerHTML += createOptionHTML(questionId, optionCount);
+        }
+
+        function createOptionHTML(questionId, optionNumber) {
+            return `
+                <div class="option">
+                    <input type="radio" name="correct${questionId}" required>
+                    <input type="text" name="option${questionId}-${optionNumber}" placeholder="Option ${optionNumber}" required>
+                </div>
+            `;
+        }
+
+        function removeQuestion(questionId) {
+            const questionContainer = document.querySelector(`[data-question-id="${questionId}"]`);
+            questionContainer.remove();
+        }
+
+        document.getElementById("quiz-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            alert("Quiz Submitted Successfully!");
+        });
+    </script>
+</body>
+</html>
