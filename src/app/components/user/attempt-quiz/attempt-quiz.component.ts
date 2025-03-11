@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 interface Question {
   correctAnswer: string;
@@ -12,34 +13,51 @@ interface Question {
 
 @Component({
   selector: 'app-quiz-attempt',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './attempt-quiz.component.html',
   styleUrls: ['./attempt-quiz.component.css']
 })
-export class QuizAttemptComponent {
-  quizId: string = '';
+export class QuizAttemptComponent implements OnInit {
+  quizId: string = '4';
   quizFound: boolean = false;
   showQuizAttempt: boolean = false;
   quizCompleted: boolean = false;
   quizTitle: string = '';
   questions: Question[] = [];
   currentQuestionIndex: number = 0;
-  currentQuestion: Question = { text: '', type: 'mcq', options: [], difficulty: 'low' , correctAnswer: '' };
+  currentQuestion: Question = { text: '', type: 'mcq', options: [], difficulty: 'low', correctAnswer: '' };
   userAnswers: string[] = [];
   timeLeft: number = 0;
   timer: any;
   canProceed: boolean = false;
   score: number = 0;
 
+  constructor(private http: HttpClient) { }
+
+  ngOnInit(): void {
+    this.fetchQuiz();
+  }
+
   fetchQuiz() {
-    // Fetch quiz details based on quizId
-    // Example data
-    this.quizTitle = 'Sample Quiz';
-    this.questions = [
-      { text: 'Question 1', type: 'mcq', options: ['Option 1', 'Option 2', 'Option 3', 'Option 4'], difficulty: 'low' , correctAnswer: 'Option 1' },
-      { text: 'Question 2', type: 'truefalse', options: ['True', 'False'], difficulty: 'medium' , correctAnswer: 'True' },
-    ];
-    this.quizFound = true;
+    this.http.get(`https://localhost:44367/api/QuizAttempts/WithOptions`).subscribe(
+      (res: any) => {
+        console.log('API Response:', res);
+        if (res) {
+          this.quizTitle = 'Sample Quiz'; // You can set this based on the response if needed
+          this.questions = Object.values(res).map((question: any) => ({
+            text: question.questionText,
+            type: question.options.length === 2 && question.options.includes('True') && question.options.includes('False') ? 'truefalse' : 'mcq',
+            options: Object.values(question.options),
+            difficulty: 'low', // Set difficulty based on your criteria
+            correctAnswer: question.correctAnswer
+          }));
+          this.quizFound = true;
+        }
+      },
+      (error) => {
+        console.error('Error fetching quiz data', error);
+      }
+    );
   }
 
   startQuiz() {
@@ -68,20 +86,6 @@ export class QuizAttemptComponent {
     }, 1000);
   }
 
-  // nextQuestion() {
-  //   clearInterval(this.timer);
-  //   if (this.userAnswers[this.currentQuestionIndex]) {
-  //     this.canProceed = true;
-  //   }
-  //   if (this.currentQuestionIndex < this.questions.length - 1) {
-  //     this.currentQuestionIndex++;
-  //     this.currentQuestion = this.questions[this.currentQuestionIndex];
-  //     this.setTimer();
-  //   } else {
-  //     this.submitQuiz();
-  //   }
-  // }
-
   nextQuestion() {
     if (this.userAnswers[this.currentQuestionIndex] || this.timeLeft <= 0) {
       clearInterval(this.timer);
@@ -94,7 +98,6 @@ export class QuizAttemptComponent {
       }
     }
   }
-
 
   submitQuiz() {
     clearInterval(this.timer);

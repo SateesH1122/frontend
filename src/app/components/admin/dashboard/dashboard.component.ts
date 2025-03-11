@@ -12,4 +12,6 @@ export class DashboardComponent {
   navigateTo(route: string){
    this.router.navigate([route]);
   }
+
+  
 }
