@@ -11,20 +11,25 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './user-dashboard.component.css'
 })
 export class UserDashboardComponent implements OnInit {
-  attemptedQuizzes: any[] = [];
+  userID: number = 8;
+  attemptedQuizzes: { title: string, description: string, PercentageScore: any }[] = [];
   constructor(private router: Router, private http: HttpClient) { }
   navigateTo(route: string) {
     this.router.navigate([route]);
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.fetchAttemptedQuizzes();
+  }
   fetchAttemptedQuizzes(): void {
-    this.http.get('https://localhost:44367/api/QuizAttempts/User/8').subscribe(
+    this.http.get(`https://localhost:44367/api/QuizAttempts/UserAttempts/${this.userID}`).subscribe(
+
       (res: any) => {
+        console.log(res);
         this.attemptedQuizzes = res.map((attempt: any) => ({
+          PercentageScore: attempt.PercentageScore,
           title: attempt.quizTitle,
           description: attempt.quizDescription,
-          score: attempt.score
         }));
       },
       (error) => {

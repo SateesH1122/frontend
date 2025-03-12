@@ -1,9 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-//integration
-import { HttpClient } from '@angular/common/http';
 
 interface Quiz {
   id: number;
@@ -17,49 +15,50 @@ interface LeaderboardEntry {
 
 @Component({
   selector: 'app-leaderboard',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './leaderboard.component.html',
-  styleUrl: './leaderboard.component.css'
+  styleUrls: ['./leaderboard.component.css']
 })
-export class LeaderboardComponent {
-  // quizzes: Quiz[] = [
-  //   { id: 1, title: 'Angular Basics' },
-  //   { id: 2, title: 'TypeScript Quiz' }
-  // ];
+export class LeaderboardComponent implements OnInit {
+  quizzes: Quiz[] = [];
+  selectedQuiz: number | null = null;
+  leaderboardEntries: LeaderboardEntry[] = [];
 
-  // selectedQuiz: number | null = null;
-  // leaderboard: LeaderboardEntry[] = [];
-
-  leaderboardEntries: any[] = [];
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.getLeaderboard();
+    this.fetchQuizzes();
   }
-  getLeaderboard() {
-    this.http.get("https://localhost:44367/api/Leaderboards/Quiz/4").subscribe(
-      (res: any) => {
-        console.log('API Response:', res);
-        if (res) {
-          this.leaderboardEntries = res;
-          console.log('Transactions List:', this.leaderboardEntries);
-        }
+
+  fetchQuizzes(): void {
+    this.http.get<Quiz[]>('https://localhost:44367/api/Quizzes/User/8').subscribe(
+      (res: Quiz[]) => {
+        this.quizzes = res;
+
+        //added
+
+        if (this.quizzes.length > 0)
+          this.selectedQuiz = this.quizzes[0].id;
+        this.getLeaderboard(); //Now it is called after the quiz is set
+
       },
       (error) => {
-        console.error('Error fetching transactions data', error);
+        console.error('Error fetching quizzes', error);
       }
     );
   }
 
-  // fetchLeaderboard() {
-  //   if (this.selectedQuiz) {
-  //     // Mock leaderboard data (replace with actual API call)
-  //     this.leaderboard = [
-  //       { name: 'Alice', score: 90 },
-  //       { name: 'Bob', score: 85 },
-  //       { name: 'Charlie', score: 80 }
-  //     ];
-  //   }
-  // }
+  getLeaderboard(): void {
+    if (this.selectedQuiz !== null) {
+      console.log('Fetching leaderboard entries for quiz', this.selectedQuiz);
+      this.http.get<LeaderboardEntry[]>(`https://localhost:44367/api/Leaderboards/Quiz/${this.selectedQuiz}`).subscribe(
+        (res: LeaderboardEntry[]) => {
+          this.leaderboardEntries = res;
+        },
+        (error) => {
+          console.error('Error fetching leaderboard entries', error);
+        }
+      );
+    }
+  }
 }

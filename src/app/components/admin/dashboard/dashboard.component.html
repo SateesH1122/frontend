@@ -9,17 +9,13 @@
       <div class="icon">+</div>
       <h3>View Leaderboard</h3>
     </div>
+
   </div>
   <div class="created-quizzes">
     <h3>Created Quizzes</h3>
-    <!-- Example quiz items -->
-    <div class="quiz-item">
-      <h4>Quiz Title 1</h4>
-      <p>Short description of the quiz.</p>
-    </div>
-    <div class="quiz-item">
-      <h4>Quiz Title 2</h4>
-      <p>Short description of the quiz.</p>
+    <div *ngFor="let quiz of quizzes" class="quiz-item">
+      <h4>{{ quiz.title }}</h4>
+      <p>{{ quiz.description }}</p>
     </div>
   </div>
 </div>
