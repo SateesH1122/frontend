@@ -20,7 +20,7 @@
 
         <div *ngIf="showQuizAttempt">
             <div class="quiz-attempt">
-                <h2>{{ currentQuestion.text }}</h2>
+                <h2>Question {{currentQuestionIndex+1}} : {{ currentQuestion.text }}</h2>
                 <div>
                     <div *ngFor="let option of currentQuestion.options">
                         <input type="radio" [name]="'question-' + currentQuestionIndex"
@@ -35,7 +35,7 @@
 
         <div *ngIf="quizCompleted && !showQuizAttempt">
             <h2>Quiz Completed</h2>
-            <p>Your Score: {{ score }}</p>
+            <h3>Your Score: {{ score }} out of {{questions.length}}</h3>
         </div>
     </div>
 </div>

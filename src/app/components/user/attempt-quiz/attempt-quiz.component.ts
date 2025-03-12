@@ -163,7 +163,7 @@ export class QuizAttemptComponent implements OnInit {
   questions: Question[] = [];
   currentQuestionIndex: number = 0;
   currentQuestion: Question = { text: '', options: [], difficulty: 'low', correctAnswer: '' };
-  userAnswers: { [key: number]: number } = {};
+  userAnswers: { [key: number]: string } = {};
   timeLeft: number = 0;
   timer: any;
   score: number = 0;
@@ -174,35 +174,7 @@ export class QuizAttemptComponent implements OnInit {
 
   ngOnInit(): void {
     // Initial setup if needed
-    // this.fetchQuiz();
   }
-
-  // fetchQuiz() {
-  //   this.quizSearched = true;
-  //   this.http.get(`https://localhost:44367/api/QuizAttempts/WithOptions/${this.quizId}`).subscribe(
-  //     (res: any) => {
-  //       console.log('API Response:', res);
-  //       if (res && Object.keys(res).length > 0) {
-
-  //         this.quizTitle = res.quizTitle;
-  //         this.quizDescription = res.quizDescription;
-  //         this.questions = Object.values(res).map((question: any) => ({
-  //           text: question.questionText,
-  //           options: Object.values(question.options),
-  //           difficulty: question.difficultyLevel, // Set difficulty based on your criteria
-  //           correctAnswer: question.correctAnswer
-  //         }));
-  //         this.quizFound = true;
-  //       } else {
-  //         this.quizFound = false;
-  //       }
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching quiz data', error);
-  //       this.quizFound = false;
-  //     }
-  //   );
-  // }
 
   fetchQuiz() {
     this.quizSearched = true;
@@ -267,6 +239,13 @@ export class QuizAttemptComponent implements OnInit {
   nextQuestion() {
     if (this.userAnswers[this.currentQuestionIndex] || this.timeLeft <= 0) {
       clearInterval(this.timer);
+
+      // Check if the selected answer is correct
+      console.log(this.userAnswers);
+      if (this.userAnswers[this.currentQuestionIndex] === this.questions[this.currentQuestionIndex].correctAnswer) {
+        this.score++;
+      }
+
       if (this.currentQuestionIndex < this.questions.length - 1) {
         this.currentQuestionIndex++;
         this.currentQuestion = this.questions[this.currentQuestionIndex];
@@ -277,26 +256,24 @@ export class QuizAttemptComponent implements OnInit {
     }
   }
 
+
   submitQuiz() {
     clearInterval(this.timer);
     this.showQuizAttempt = false;
     this.quizCompleted = true;
     this.quizFound = false;
 
-    const submissionDTO = {
-      userID: this.userID,
-      quizID: parseInt(this.quizId),
-      answers: this.userAnswers
+    const quizAttempt = {
+      UserID: this.userID, // Assuming you have userId property
+      QuizID: this.quizId, // Assuming you have quizId property
+      Score: this.score
     };
 
-    this.http.post('https://localhost:44367/api/QuizAttempts/Submit', submissionDTO).subscribe(
-      (res: any) => {
-        console.log('Quiz Submission Response:', res);
-        this.score = res.score;
-      },
-      (error) => {
-        console.error('Error submitting quiz', error);
-      }
-    );
+    this.http.post('https://localhost:44367/api/QuizAttempts', quizAttempt)
+      .subscribe(response => {
+        console.log('Quiz attempt saved successfully', response);
+      }, error => {
+        console.error('Error saving quiz attempt', error);
+      });
   }
 }
