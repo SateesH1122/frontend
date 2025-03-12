@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="leaderboard-content">
+        <h2>View Leaderboard</h2>
+        <label>Select Quiz:</label>
+        <select [(ngModel)]="selectedQuiz" (change)="getLeaderboard()">
+            <option *ngFor="let quiz of attemptedQuizzes" [value]="quiz.quizID">{{ quiz.title }}</option>
+        </select>
+
+        <table>
+            <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Score</th>
+            </tr>
+            <tbody *ngFor="let user of leaderboardEntries; let i = index">
+                <tr>
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.score }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
