@@ -4,6 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+interface AttemptedQuiz {
+  scorePercent: number;
+  description: string;
+  title: string;
+}
 @Component({
   selector: 'app-user-dashboard',
   imports: [FormsModule, CommonModule],
@@ -12,7 +17,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class UserDashboardComponent implements OnInit {
   userID: number = 8;
-  attemptedQuizzes: { title: string, description: string, PercentageScore: any }[] = [];
+  attemptedQuizzes: AttemptedQuiz[] = [];
   constructor(private router: Router, private http: HttpClient) { }
   navigateTo(route: string) {
     this.router.navigate([route]);
@@ -21,13 +26,12 @@ export class UserDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.fetchAttemptedQuizzes();
   }
-  fetchAttemptedQuizzes(): void {
-    this.http.get(`https://localhost:44367/api/QuizAttempts/UserAttempts/${this.userID}`).subscribe(
-
-      (res: any) => {
-        console.log(res);
+  fetchAttemptedQuizzes() {
+    this.http.get<any[]>(`https://localhost:44367/api/QuizAttempts/UserAttempts/${this.userID}`).subscribe(
+      (res: any[]) => {
+        console.log(res); // Check the console for the API response
         this.attemptedQuizzes = res.map((attempt: any) => ({
-          PercentageScore: attempt.PercentageScore,
+          scorePercent: attempt.PercentageScore,
           title: attempt.quizTitle,
           description: attempt.quizDescription,
         }));

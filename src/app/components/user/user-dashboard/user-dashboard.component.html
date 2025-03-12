@@ -15,7 +15,7 @@
     <div *ngFor="let quiz of attemptedQuizzes" class="quiz-item">
       <h3>{{ quiz.title }}</h3>
       <p>{{ quiz.description }}</p>
-      <h4>Percentage : {{ quiz.PercentageScore }} %</h4>
+      <h4>{{ quiz.scorePercent }} </h4>
     </div>
   </div>
 </div>

@@ -3,7 +3,7 @@
     <h2>View Leaderboard</h2>
     <label>Select Quiz:</label>
     <select [(ngModel)]="selectedQuiz" (change)="getLeaderboard()">
-      <option *ngFor="let quiz of quizzes" [value]="quiz.id">{{ quiz.title }}</option>
+      <option *ngFor="let quiz of quizzes" [value]="quiz.quizID">{{ quiz.title }}</option>
     </select>
 
     <table>
@@ -15,7 +15,7 @@
       <tbody *ngFor="let user of leaderboardEntries; let i = index">
         <tr>
           <td>{{ i + 1 }}</td>
-          <td>{{ user.name }}</td>
+          <td>{{ user.username }}</td>
           <td>{{ user.score }}</td>
         </tr>
       </tbody>
