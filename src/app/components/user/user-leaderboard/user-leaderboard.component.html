@@ -5,6 +5,7 @@
         <select [(ngModel)]="selectedQuiz" (change)="getLeaderboard()">
             <option *ngFor="let quiz of attemptedQuizzes" [value]="quiz.quizID">{{ quiz.title }}</option>
         </select>
+        <button (click)="navigateTo('user-dashboard')">Back to Dashboard</button>
 
         <table>
             <tr>

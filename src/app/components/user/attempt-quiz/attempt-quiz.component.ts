@@ -139,6 +139,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 interface Question {
   correctAnswer: string;
@@ -170,10 +171,14 @@ export class QuizAttemptComponent implements OnInit {
   userID: number = 8; // Assuming a fixed user ID for this example
   quizSearched: boolean = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient) { }
 
   ngOnInit(): void {
     // Initial setup if needed
+  }
+
+  navigateTo(route: string) {
+    this.router.navigate([route]);
   }
 
   fetchQuiz() {
@@ -212,11 +217,11 @@ export class QuizAttemptComponent implements OnInit {
 
   setTimer() {
     if (this.currentQuestion.difficulty === 'low') {
-      this.timeLeft = 5;
-    } else if (this.currentQuestion.difficulty === 'medium') {
       this.timeLeft = 20;
-    } else if (this.currentQuestion.difficulty === 'hard') {
+    } else if (this.currentQuestion.difficulty === 'medium') {
       this.timeLeft = 30;
+    } else if (this.currentQuestion.difficulty === 'hard') {
+      this.timeLeft = 40;
     }
     this.timer = setInterval(() => {
       this.timeLeft--;

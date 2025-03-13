@@ -5,14 +5,6 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 
-interface LeaderboardEntry {
-  attemptID: number;
-  userID: number;
-  quizID: number;
-  score: number;
-  username: string;
-}
-
 interface Quiz {
   quizID: number;
   title: string;
@@ -21,15 +13,16 @@ interface Quiz {
   createdAt: string;
 }
 @Component({
-  selector: 'app-leaderboard',
+  selector: 'app-delete-quiz',
   imports: [FormsModule, CommonModule],
-  templateUrl: './leaderboard.component.html',
-  styleUrls: ['./leaderboard.component.css']
+  templateUrl: './delete-quiz.component.html',
+  styleUrl: './delete-quiz.component.css'
 })
-export class LeaderboardComponent implements OnInit {
+export class DeleteQuizComponent {
+
+
   quizzes: any[] = [];
   selectedQuiz: number = 0;
-  leaderboardEntries: any[] = [];
   userID: number = 8;
   constructor(private router: Router, private http: HttpClient) { }
 
@@ -38,7 +31,7 @@ export class LeaderboardComponent implements OnInit {
     if (this.quizzes.length > 0) {
       this.selectedQuiz = this.quizzes[0].quizID;
     }
-    this.getLeaderboard();
+
   }
 
   fetchQuizzes() {
@@ -57,19 +50,24 @@ export class LeaderboardComponent implements OnInit {
   navigateTo(route: string) {
     this.router.navigate([route]);
   }
-  getLeaderboard() {
-    console.log(this.selectedQuiz);
-    if (this.selectedQuiz > 0) {
-      console.log('Fetching leaderboard entries for quiz', this.selectedQuiz);
-      this.http.get<LeaderboardEntry[]>(`https://localhost:44367/api/Leaderboards/Quiz/${this.selectedQuiz}`).subscribe(
-        (res: LeaderboardEntry[]) => {
-          console.log('Fetched leaderboard entries', res);
-          this.leaderboardEntries = res;
+
+  deletequiz() {
+    if (window.confirm('Are you sure you want to delete this quiz?')) {
+      console.log('Deleting the quiz with ID ', this.selectedQuiz);
+      this.http.delete(`https://localhost:44367/api/Quizzes/${this.selectedQuiz}`).subscribe(
+        (res) => {
+          this.fetchQuizzes();
+          console.log('Quiz deleted successfully');
+          alert('Quiz deleted successfully');
+          console.log('Remaining quizzes', this.quizzes);
         },
         (error) => {
-          console.error('Error fetching leaderboard entries', error);
+          console.error('Error fetching quizzes', error);
         }
       );
+    } else {
+      console.log('Quiz deletion cancelled');
     }
   }
 }
+

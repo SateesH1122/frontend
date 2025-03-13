@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NavbarComponent } from "../../landing_page/navbar/navbar.component";
+import { FooterComponent } from "../../landing_page/footer/footer.component";
 
 interface AttemptedQuiz {
   scorePercent: number;
@@ -11,7 +13,7 @@ interface AttemptedQuiz {
 }
 @Component({
   selector: 'app-user-dashboard',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './user-dashboard.component.html',
   styleUrl: './user-dashboard.component.css'
 })

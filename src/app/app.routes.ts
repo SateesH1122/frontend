@@ -6,6 +6,7 @@ import { LeaderboardComponent } from './components/admin/leaderboard/leaderboard
 import { UserDashboardComponent } from './components/user/user-dashboard/user-dashboard.component';
 import { QuizAttemptComponent } from './components/user/attempt-quiz/attempt-quiz.component';
 import { UserLeaderboardComponent } from './components/user/user-leaderboard/user-leaderboard.component';
+import { DeleteQuizComponent } from './components/admin/delete-quiz/delete-quiz.component';
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'dashboard', component: DashboardComponent },
@@ -14,5 +15,5 @@ export const routes: Routes = [
   { path: 'user-dashboard', component: UserDashboardComponent },
   { path: 'attempt-quiz', component: QuizAttemptComponent },
   { path: 'user-leaderboard', component: UserLeaderboardComponent },
-
+  { path: 'delete-quiz', component: DeleteQuizComponent },
 ];

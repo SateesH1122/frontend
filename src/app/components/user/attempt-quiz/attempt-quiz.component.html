@@ -36,6 +36,7 @@
         <div *ngIf="quizCompleted && !showQuizAttempt">
             <h2>Quiz Completed</h2>
             <h3>Your Score: {{ score }} out of {{questions.length}}</h3>
+            <button (click)="navigateTo('user-dashboard')">Back to Dashboard</button>
         </div>
     </div>
 </div>

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 interface Option {
   text: string;
@@ -23,19 +24,23 @@ interface Question {
   styleUrls: ['./create-quiz.component.css']
 })
 export class CreateQuizComponent {
-  showModal = true;
+  // showModal = true;
   quizTitle: string = 'Example Quiz';
   quizDescription: string = 'This Quiz is an example quiz';
   questions: Question[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient) { }
 
-  openModal() {
-    this.showModal = true;
-  }
+  // openModal() {
+  //   this.showModal = true;
+  // }
 
-  closeModal() {
-    this.showModal = false;
+  // closeModal() {
+  //   this.showModal = false;
+  // }
+
+  navigateTo(route: string) {
+    this.router.navigate([route]);
   }
 
   addQuestion() {
@@ -129,7 +134,7 @@ export class CreateQuizComponent {
           );
         });
 
-        this.closeModal();
+        this.navigateTo('dashboard')
       },
       (quizError) => {
         console.error('Error saving quiz', quizError);

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 interface LeaderboardEntry {
   attemptID: number;
@@ -29,7 +30,7 @@ export class UserLeaderboardComponent {
   selectedQuiz: number = 0;
   leaderboardEntries: any[] = [];
   userID: number = 8;
-  constructor(private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.fetchAttemptedQuizzes();
@@ -54,6 +55,10 @@ export class UserLeaderboardComponent {
         console.error('Error fetching attempted quizzes', error);
       }
     );
+  }
+
+  navigateTo(route: string) {
+    this.router.navigate([route]);
   }
   getLeaderboard() {
     console.log(this.selectedQuiz);

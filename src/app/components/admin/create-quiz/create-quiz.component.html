@@ -1,4 +1,4 @@
-<div class="modal" *ngIf="showModal">
+<div class="modal">
   <div class="modal-content">
     <div class="quiz-card">
       <h2>Create Quiz</h2>
@@ -35,6 +35,6 @@
     </div>
     <button class="add-question-btn" (click)="addQuestion()">Add Question</button>
     <button class="save-btn" (click)="saveQuiz()">Save Quiz</button>
-    <button class="cancel-btn" (click)="closeModal()">Cancel</button>
+    <button class="cancel-btn" (click)="navigateTo('dashboard')">Cancel</button>
   </div>
 </div>
