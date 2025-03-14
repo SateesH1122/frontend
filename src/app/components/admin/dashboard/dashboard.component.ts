@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FooterComponent } from "../../landing_page/footer/footer.component";
 import { NavbarComponent } from "../../landing_page/navbar/navbar.component";
+import { UserService } from '../../../services/user.service';
 
 interface Quiz {
   id: number;
@@ -21,9 +22,9 @@ interface Quiz {
 })
 export class DashboardComponent implements OnInit {
   quizzes: Quiz[] = [];
-  userId: number = 8; // Assuming a fixed user ID for this example
+  userId: number = 0; // Assuming a fixed user ID for this example
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient, private userservice: UserService) { }
 
   ngOnInit(): void {
     this.fetchQuizzes();
@@ -34,6 +35,7 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchQuizzes() {
+    this.userId = this.userservice.getUserId();
     this.http.get<Quiz[]>(`https://localhost:44367/api/Quizzes/User/${this.userId}`).subscribe(
       (res: Quiz[]) => {
         this.quizzes = res;
