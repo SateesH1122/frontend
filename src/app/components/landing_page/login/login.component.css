@@ -121,7 +121,6 @@
   color: red;
   font-size: 0.875em;
   margin-top: 5px;
-  min-height: 1em;
   /* Reserve space for error message */
 }
 
