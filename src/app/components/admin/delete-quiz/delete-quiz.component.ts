@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { UserService } from '../../../services/user.service';
 
 
 interface Quiz {
@@ -23,8 +24,8 @@ export class DeleteQuizComponent {
 
   quizzes: any[] = [];
   selectedQuiz: number = 0;
-  userID: number = 8;
-  constructor(private router: Router, private http: HttpClient) { }
+  userID: number = 0;
+  constructor(private router: Router, private http: HttpClient, private userservice: UserService) { }
 
   ngOnInit(): void {
     this.fetchQuizzes();
@@ -35,6 +36,7 @@ export class DeleteQuizComponent {
   }
 
   fetchQuizzes() {
+    this.userID = this.userservice.getUser().userid;
     console.log('Fetching quizzes for user');
     this.http.get<Quiz[]>(`https://localhost:44367/api/Quizzes/User/${this.userID}`).subscribe(
       (res: Quiz[]) => {

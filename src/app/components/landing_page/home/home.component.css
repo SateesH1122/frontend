@@ -1,10 +1,9 @@
 .home-container {
-    width: 80vw; /* Fixed width */
-    min-height: 500px; /* Adjust as per your design */
+    width: 80vw;
     padding: 60px 20px;
-    margin: auto;
+    margin: 7% auto;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
@@ -70,7 +69,8 @@
         padding: 40px 15px;
     }
 
-    .hero-section, .login-section {
+    .hero-section,
+    .login-section {
         width: 100%;
     }
 

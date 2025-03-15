@@ -13,10 +13,13 @@
   </div>
   <div class="attempted-quizzes">
     <h3>Quizzes Attempted</h3>
+    <div *ngIf="attemptedQuizzes.length === 0">
+      <p>No quizzes attempted yet.</p>
+    </div>
     <div *ngFor="let quiz of attemptedQuizzes" class="quiz-item">
-      <h3>{{ quiz.title }}</h3>
-      <p>{{ quiz.description }}</p>
-      <h4>{{ quiz.scorePercent }} </h4>
+      <h3> Title : {{ quiz.title }}</h3>
+      <p> Description : {{ quiz.description }}</p>
+      <h4>Percentage : {{ quiz.scorePercent }} </h4>
     </div>
   </div>
 </div>

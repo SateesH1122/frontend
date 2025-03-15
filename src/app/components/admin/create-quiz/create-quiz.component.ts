@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { UserService } from '../../../services/user.service';
 
 interface Option {
   text: string;
@@ -25,20 +26,12 @@ interface Question {
 })
 export class CreateQuizComponent {
   // showModal = true;
+  userId: number = 0;
   quizTitle: string = 'Example Quiz';
   quizDescription: string = 'This Quiz is an example quiz';
   questions: Question[] = [];
 
-  constructor(private router: Router, private http: HttpClient) { }
-
-  // openModal() {
-  //   this.showModal = true;
-  // }
-
-  // closeModal() {
-  //   this.showModal = false;
-  // }
-
+  constructor(private router: Router, private http: HttpClient, private userservice: UserService) { }
   navigateTo(route: string) {
     this.router.navigate([route]);
   }
@@ -85,10 +78,11 @@ export class CreateQuizComponent {
   }
 
   saveQuiz() {
+    this.userId = this.userservice.getUser().userid;
     const quizDTO = {
       title: this.quizTitle,
       description: this.quizDescription,
-      userID: 8, // Assuming a static user ID for now
+      userID: this.userId,
       createdAt: new Date()
     };
 

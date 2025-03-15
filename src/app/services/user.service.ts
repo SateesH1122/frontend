@@ -6,11 +6,22 @@ import { Injectable } from '@angular/core';
 export class UserService {
   constructor() { }
   userid: number = 0;
-  getUserId() {
-    return this.userid;
+  role: string = '';
+  username: string = '';
+  email: string = '';
+  getUser() {
+    return {
+      userid: this.userid,
+      role: this.role,
+      username: this.username,
+      email: this.email
+    }
   }
-  setUserId(userid: number) {
+  setUser(userid: number, role: string, username: string, email: string) {
     this.userid = userid;
+    this.role = role;
+    this.username = username;
+    this.email = email;
   }
 
 }

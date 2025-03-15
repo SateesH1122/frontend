@@ -7,8 +7,11 @@ import { UserDashboardComponent } from './components/user/user-dashboard/user-da
 import { QuizAttemptComponent } from './components/user/attempt-quiz/attempt-quiz.component';
 import { UserLeaderboardComponent } from './components/user/user-leaderboard/user-leaderboard.component';
 import { DeleteQuizComponent } from './components/admin/delete-quiz/delete-quiz.component';
+import { AboutComponent } from './components/landing_page/about/about.component';
+import { ContactComponent } from './components/landing_page/contact/contact.component';
+import { HomeComponent } from './components/landing_page/home/home.component';
 export const routes: Routes = [
-  { path: '', component: LandingPageComponent },
+  { path: '', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'create-quiz', component: CreateQuizComponent },
   { path: 'leaderboard', component: LeaderboardComponent },
@@ -16,4 +19,6 @@ export const routes: Routes = [
   { path: 'attempt-quiz', component: QuizAttemptComponent },
   { path: 'user-leaderboard', component: UserLeaderboardComponent },
   { path: 'delete-quiz', component: DeleteQuizComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'contact', component: ContactComponent },
 ];

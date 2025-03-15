@@ -6,15 +6,12 @@ html {
 .dashboard-container {
   font-family: Arial, sans-serif;
   padding: 20px;
-  /* height: calc(100vh - 60px); */
-  /* Adjust height to account for navbar height */
-  margin-top: 60px;
-  /* Add margin to push content below navbar */
-  background-image: url("../../../../assets/bg1.jpg");
+  margin: 5% auto 2% auto;
+  min-height: calc(100vh - 200px);
 }
 
 .dashboard-container::before {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(10px);
   z-index: -1;
@@ -27,7 +24,8 @@ h2 {
 
 .cards {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 40px;
   margin-top: 20px;
 }
 

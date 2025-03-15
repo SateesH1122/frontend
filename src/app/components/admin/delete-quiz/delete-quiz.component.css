@@ -24,7 +24,14 @@
     position: relative;
 }
 
-h2 {
+.no-quiz-message {
+    text-align: center;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 20px;
+}
+
+h1 {
     text-align: center;
     color: #fff;
     font-family: 'Arial', sans-serif;

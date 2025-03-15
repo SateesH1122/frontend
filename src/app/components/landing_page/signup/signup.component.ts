@@ -45,15 +45,18 @@ export class SignupComponent {
   onSubmit() {
     if (this.signupForm.valid) {
       const user = this.signupForm.value;
+      user.email = user.email.toLowerCase();
 
       this.http.post('https://localhost:44367/api/Users/Register', user).subscribe(
-        response => {
+        (response) => {
+
           console.log('User registered successfully', response);
-          alert('Registration successful!');
+          alert('Registration successful!\nPlease login to continue.');
           this.switchToLogin.emit();
         },
         error => {
-          console.error('Error registering user', error);
+          alert('Registration failed. Email already exists.');
+          //console.error('Error registering user', error);
         }
       );
     }

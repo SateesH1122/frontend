@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchQuizzes() {
-    this.userId = this.userservice.getUserId();
+    this.userId = this.userservice.getUser().userid;
     this.http.get<Quiz[]>(`https://localhost:44367/api/Quizzes/User/${this.userId}`).subscribe(
       (res: Quiz[]) => {
         this.quizzes = res;

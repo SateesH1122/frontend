@@ -8,7 +8,7 @@ import { ContactComponent } from "../contact/contact.component";
 
 @Component({
   selector: 'app-landing-page',
-  imports: [FooterComponent, NavbarComponent, HomeComponent, AboutComponent, ContactComponent],
+  imports: [RouterOutlet, FooterComponent, NavbarComponent],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css'
 })

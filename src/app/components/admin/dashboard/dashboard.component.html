@@ -17,10 +17,13 @@
 
   </div>
   <div class="created-quizzes">
-    <h3>Created Quizzes</h3>
-    <div *ngFor="let quiz of quizzes" class="quiz-item">
-      <h4>{{ quiz.title }}</h4>
-      <p>{{ quiz.description }}</p>
+    <h4>Created Quizzes</h4>
+    <div *ngIf="quizzes.length === 0">
+      <h3>No quizzes created yet.</h3>
+      <div *ngFor="let quiz of quizzes" class="quiz-item">
+        <h4>Title : {{ quiz.title }}</h4>
+        <p>Description : {{ quiz.description }}</p>
+      </div>
     </div>
   </div>
 </div>
