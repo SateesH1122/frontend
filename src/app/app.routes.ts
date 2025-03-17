@@ -10,15 +10,19 @@ import { DeleteQuizComponent } from './components/admin/delete-quiz/delete-quiz.
 import { AboutComponent } from './components/landing_page/about/about.component';
 import { ContactComponent } from './components/landing_page/contact/contact.component';
 import { HomeComponent } from './components/landing_page/home/home.component';
+import { AuthGuard } from './services/auth.guard';
+import { ProfileComponent } from './components/user/profile/profile.component';
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'create-quiz', component: CreateQuizComponent },
-  { path: 'leaderboard', component: LeaderboardComponent },
-  { path: 'user-dashboard', component: UserDashboardComponent },
-  { path: 'attempt-quiz', component: QuizAttemptComponent },
-  { path: 'user-leaderboard', component: UserLeaderboardComponent },
-  { path: 'delete-quiz', component: DeleteQuizComponent },
+  { path: '', component: HomeComponent, },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'create-quiz', component: CreateQuizComponent, canActivate: [AuthGuard] },
+  { path: 'leaderboard', component: LeaderboardComponent, canActivate: [AuthGuard] },
+  { path: 'user-dashboard', component: UserDashboardComponent, canActivate: [AuthGuard] },
+  { path: 'attempt-quiz', component: QuizAttemptComponent, canActivate: [AuthGuard] },
+  { path: 'user-leaderboard', component: UserLeaderboardComponent, canActivate: [AuthGuard] },
+  { path: 'delete-quiz', component: DeleteQuizComponent, canActivate: [AuthGuard] },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
 ];
+// { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },

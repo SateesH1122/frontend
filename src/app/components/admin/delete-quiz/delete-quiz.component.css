@@ -1,14 +1,3 @@
-.container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url("../../../../assets/bg1.jpg") no-repeat center center fixed;
-    background-size: cover;
-    align-items: center;
-}
-
 .delete-quiz-content {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
@@ -18,8 +7,8 @@
     border: 1px solid rgba(255, 255, 255, 0.3);
     padding: 20px;
     width: 50%;
-    margin: 0 auto;
-    margin-top: 20px;
+    margin: 7% auto;
+    min-height: calc(100vh - 200px);
     color: #fff;
     position: relative;
 }

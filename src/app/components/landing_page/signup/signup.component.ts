@@ -1,23 +1,3 @@
-// import { Component, EventEmitter, Output } from '@angular/core';
-
-// @Component({
-//   selector: 'app-signup',
-//   templateUrl: './signup.component.html',
-//   styleUrls: ['./signup.component.css']
-// })
-// export class SignupComponent {
-//   @Output() switchToLogin = new EventEmitter<void>();
-
-//   goToLogin() {
-//     this.switchToLogin.emit();
-//   }
-//   successRegister() {
-//     alert('Registration successful!');
-//     this.switchToLogin.emit();
-//   }
-// }
-
-
 import { Component, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -37,7 +17,11 @@ export class SignupComponent {
     this.signupForm = new FormGroup({
       username: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)
+      ]),
       role: new FormControl('', Validators.required)
     });
   }

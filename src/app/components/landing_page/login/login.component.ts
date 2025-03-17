@@ -39,7 +39,11 @@ export class LoginComponent {
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required)
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)
+      ])
     });
   }
 
@@ -59,19 +63,20 @@ export class LoginComponent {
   onLogin() {
     if (this.loginForm.valid) {
       const credentials = this.loginForm.value;
+      credentials.email = credentials.email.toLowerCase();
 
       this.http.post('https://localhost:44367/api/Users/Login', credentials)
         .subscribe((response: any) => {
           console.log('Login successful', response);
           this.userService.setUser(response.userid, response.role, response.username, response.email); // Store the user ID
-          console.log('User ID:', this.userService.getUser());
           if (response.role === 'Admin') {
             this.router.navigate(['/dashboard']);
           } else if (response.role === 'Student') {
             this.router.navigate(['/user-dashboard']);
           }
         }, error => {
-          console.error('Error logging in', error);
+          alert("Invalid Cerdentials\nPlease enter valid credentials or register if you don't have an account.");
+          this.loginForm.reset();
         });
     }
   }

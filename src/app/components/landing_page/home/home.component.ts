@@ -11,7 +11,7 @@ import { FooterComponent } from "../footer/footer.component";
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  isLoginMode = false; // Initially show Signup component
+  isLoginMode = true; // Initially show Signup component
 
   toggleMode() {
     this.isLoginMode = !this.isLoginMode;

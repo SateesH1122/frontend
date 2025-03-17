@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { NavbarComponent } from "../../landing_page/navbar/navbar.component";
+import { FooterComponent } from "../../landing_page/footer/footer.component";
+import { UserService } from '../../../services/user.service';
 
 interface LeaderboardEntry {
   attemptID: number;
@@ -21,7 +24,7 @@ interface QuizAttempt {
 
 @Component({
   selector: 'app-user-leaderboard',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './user-leaderboard.component.html',
   styleUrl: './user-leaderboard.component.css'
 })
@@ -29,18 +32,15 @@ export class UserLeaderboardComponent {
   attemptedQuizzes: any[] = [];
   selectedQuiz: number = 0;
   leaderboardEntries: any[] = [];
-  userID: number = 8;
-  constructor(private router: Router, private http: HttpClient) { }
+  userID: number = 0;
+  constructor(private router: Router, private http: HttpClient, private userservice: UserService) { }
 
   ngOnInit(): void {
     this.fetchAttemptedQuizzes();
-    // if (this.quizzes.length > 0) {
-    //   this.selectedQuiz = this.quizzes[0].quizID;
-    // }
-
     this.getLeaderboard();
   }
   fetchAttemptedQuizzes() {
+    this.userID = this.userservice.getUser().userid;
     this.http.get<any[]>(`https://localhost:44367/api/QuizAttempts/UserAttempts/${this.userID}`).subscribe(
       (res: any[]) => {
         console.log(res); // Check the console for the API response

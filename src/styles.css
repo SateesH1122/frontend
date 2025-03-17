@@ -7,7 +7,7 @@ body {
     margin: 0;
     box-sizing: border-box;
     /* background-color: black; */
-    background: url('../src/assets/bg1.jpg');
+    background: url('../src/assets/bg1.jpg') fixed;
 }
 
 button {

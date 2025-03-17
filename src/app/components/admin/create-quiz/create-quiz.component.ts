@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
+import { NavbarComponent } from "../../landing_page/navbar/navbar.component";
+import { FooterComponent } from "../../landing_page/footer/footer.component";
 
 interface Option {
   text: string;
@@ -20,16 +22,17 @@ interface Question {
 
 @Component({
   selector: 'app-create-quiz',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NavbarComponent, FooterComponent],
   templateUrl: './create-quiz.component.html',
   styleUrls: ['./create-quiz.component.css']
 })
 export class CreateQuizComponent {
   // showModal = true;
   userId: number = 0;
-  quizTitle: string = 'Example Quiz';
-  quizDescription: string = 'This Quiz is an example quiz';
+  quizTitle: string = '';
+  quizDescription: string = '';
   questions: Question[] = [];
+  qtypetf: boolean = false;
 
   constructor(private router: Router, private http: HttpClient, private userservice: UserService) { }
   navigateTo(route: string) {
@@ -38,9 +41,9 @@ export class CreateQuizComponent {
 
   addQuestion() {
     this.questions.push({
-      text: `Question ${this.questions.length + 1}`,
+      text: 'Question',
       type: 'mcq',
-      options: [],
+      options: ['Option 1', 'Option 2', 'Option 3', 'Option 4'].map(option => ({ text: option, isCorrect: false })),
       correctAnswer: '',
       difficulty: 'low'
     });
@@ -49,12 +52,14 @@ export class CreateQuizComponent {
   // (change)="updateOptions(i) add this to the select tag in the html file
   updateOptions(index: number) {
     if (this.questions[index].type === 'truefalse') {
+      this.qtypetf = true;
       this.questions[index].options = [
         { text: 'True', isCorrect: false },
         { text: 'False', isCorrect: false }
       ];
     } else {
-      this.questions[index].options = [];
+      this.qtypetf = false;
+      this.questions[index].options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'].map(option => ({ text: option, isCorrect: false }));
     }
   }
 
@@ -63,7 +68,13 @@ export class CreateQuizComponent {
   }
 
   deleteOption(questionIndex: number, optionIndex: number) {
-    this.questions[questionIndex].options.splice(optionIndex, 1);
+    // this.questions[questionIndex].options.splice(optionIndex, 1);
+    const question = this.questions[questionIndex];
+    if (question.options.length > 2) {
+      question.options.splice(optionIndex, 1);
+    } else {
+      alert('MCQ questions must have at least two options.');
+    }
   }
 
   deleteQuestion(index: number) {
@@ -76,8 +87,32 @@ export class CreateQuizComponent {
       option.isCorrect = index === optionIndex;
     });
   }
+  areAllQuestionsValid(): boolean {
+    for (let question of this.questions) {
+      if (!question.options.some(option => option.isCorrect)) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   saveQuiz() {
+    if (this.quizTitle === '' || this.quizDescription === '') {
+      alert('Please fill in all fields');
+      return;
+    }
+    if (this.quizDescription.length < 30) {
+      alert('Quiz description must be more than 30 characters.');
+      return;
+    }
+    if (this.questions.length === 0) {
+      alert('Please add at least one question');
+      return;
+    }
+    if (!this.areAllQuestionsValid()) {
+      alert('Please select a correct answer for every question');
+      return;
+    }
     this.userId = this.userservice.getUser().userid;
     const quizDTO = {
       title: this.quizTitle,

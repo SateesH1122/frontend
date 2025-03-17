@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
+import { NavbarComponent } from "../../landing_page/navbar/navbar.component";
+import { FooterComponent } from "../../landing_page/footer/footer.component";
 
 
 interface LeaderboardEntry {
@@ -23,7 +25,7 @@ interface Quiz {
 }
 @Component({
   selector: 'app-leaderboard',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './leaderboard.component.html',
   styleUrls: ['./leaderboard.component.css']
 })

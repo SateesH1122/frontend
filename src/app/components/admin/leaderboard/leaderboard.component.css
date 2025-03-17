@@ -1,4 +1,4 @@
-.container {
+/* .container {
   position: fixed;
   top: 0;
   left: 0;
@@ -7,9 +7,11 @@
   background: url("../../../../assets/bg1.jpg") no-repeat center center fixed;
   background-size: cover;
   align-items: center;
-}
+} */
 
 .leaderboard-content {
+  margin: 7% auto;
+  min-height: calc(100vh - 200px);
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -17,9 +19,7 @@
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 20px;
-  width: 50%;
-  margin: 0 auto;
-  margin-top: 20px;
+  width: 60%;
   color: #fff;
   position: relative;
 }
@@ -56,7 +56,7 @@ option {
 }
 
 table {
-  width: 100%;
+  width: 60%;
   border-collapse: collapse;
   margin-top: 20px;
   font-family: 'Arial', sans-serif;
@@ -67,6 +67,7 @@ table {
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: #fff;
+  margin: auto;
 }
 
 th,
@@ -74,6 +75,7 @@ td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
 }
 
 th {
@@ -95,10 +97,6 @@ tbody td {
 
 tbody td:first-child {
   font-weight: bold;
-}
-
-tbody td:last-child {
-  text-align: right;
 }
 
 .no-quiz-message {

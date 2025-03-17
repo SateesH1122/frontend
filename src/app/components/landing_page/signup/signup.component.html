@@ -102,7 +102,14 @@
             <input type="password" class="input" placeholder="Enter your Password" formControlName="password" required>
         </div>
         <div *ngIf="signupForm.controls['password'].invalid && signupForm.controls['password'].touched" class="error">
-            Password is required and must be at least 6 characters long.
+            <!-- Password should contain at least 6 characters and include a mix of uppercase and lowercase letters, a
+            special character, and a number -->
+            Password should contain at least<br>
+            - 6 characters<br>
+            - an uppercase letter<br>
+            - a lowercase letter<br>
+            - a special character and<br>
+            - a number
         </div>
     </div>
     <div class="flex-column">

@@ -2,6 +2,7 @@
 // import { CommonModule } from '@angular/common';
 // import { FormsModule } from '@angular/forms';
 // import { HttpClient } from '@angular/common/http';
+// import { UserService } from '../../../services/user.service';
 
 // interface Question {
 //   correctAnswer: string;
@@ -31,16 +32,41 @@
 //   score: number = 0;
 //   userID: number = 8; // Assuming a fixed user ID for this example
 //   quizSearched: boolean = false;
+//   hasAttemptedQuiz: boolean = false;
+//   attemptedQuizzes: any[] = [];
 
-//   constructor(private http: HttpClient) { }
+//   constructor(private http: HttpClient, private userservice: UserService) { }
 
 //   ngOnInit(): void {
-//     // Initial setup if needed
-//     // this.fetchQuiz();
+//     this.fetchAttemptedQuizzes();
+//   }
+//   fetchAttemptedQuizzes() {
+//     this.userID = this.userservice.getUser().userid;
+//     this.http.get<any[]>(`https://localhost:44367/api/QuizAttempts/UserAttempts/${this.userID}`).subscribe(
+//       (res: any[]) => {
+//         console.log(res);
+//         this.attemptedQuizzes = res.map((attempt: any) => ({
+//           quizID: attempt.quizID,
+//           scorePercent: attempt.PercentageScore,
+//           title: attempt.quizTitle,
+//           description: attempt.quizDescription,
+//         }));
+//       },
+//       (error) => {
+//         console.error('Error fetching attempted quizzes', error);
+//       }
+//     );
 //   }
 
 //   fetchQuiz() {
 //     this.quizSearched = true;
+//     console.log('Entered Quiz ID:', this.quizId);
+//     this.hasAttemptedQuiz = this.attemptedQuizzes.some(quiz => quiz.quizID === Number(this.quizId));
+//     console.log('Has attempted quiz:', this.hasAttemptedQuiz);
+//     if (this.hasAttemptedQuiz) {
+//       this.quizFound = false;
+//       return;
+//     }
 //     this.http.get(`https://localhost:44367/api/QuizAttempts/WithOptions/${this.quizId}`).subscribe(
 //       (res: any) => {
 //         console.log('API Response:', res);
@@ -140,6 +166,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { NavbarComponent } from "../../landing_page/navbar/navbar.component";
+import { FooterComponent } from "../../landing_page/footer/footer.component";
+import { UserService } from '../../../services/user.service';
 
 interface Question {
   correctAnswer: string;
@@ -150,12 +179,12 @@ interface Question {
 
 @Component({
   selector: 'app-quiz-attempt',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NavbarComponent, FooterComponent],
   templateUrl: './attempt-quiz.component.html',
   styleUrls: ['./attempt-quiz.component.css']
 })
 export class QuizAttemptComponent implements OnInit {
-  quizId: string = '';
+  quizId: any = '';
   quizFound: boolean = false;
   showQuizAttempt: boolean = false;
   quizCompleted: boolean = false;
@@ -168,21 +197,49 @@ export class QuizAttemptComponent implements OnInit {
   timeLeft: number = 0;
   timer: any;
   score: number = 0;
-  userID: number = 8; // Assuming a fixed user ID for this example
+  userID: number = 0;
   quizSearched: boolean = false;
+  hasAttemptedQuiz: boolean = false;
+  attemptedQuizzes: any[] = [];
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient, private userservice: UserService) { }
 
   ngOnInit(): void {
     // Initial setup if needed
+    this.fetchAttemptedQuizzes();
   }
 
   navigateTo(route: string) {
     this.router.navigate([route]);
   }
 
+  fetchAttemptedQuizzes() {
+    this.userID = this.userservice.getUser().userid;
+    this.http.get<any[]>(`https://localhost:44367/api/QuizAttempts/UserAttempts/${this.userID}`).subscribe(
+      (res: any[]) => {
+        console.log(res); // Check the console for the API response
+        this.attemptedQuizzes = res.map((attempt: any) => ({
+          quizID: attempt.quizID,
+          scorePercent: attempt.PercentageScore,
+          title: attempt.quizTitle,
+          description: attempt.quizDescription,
+        }));
+      },
+      (error) => {
+        console.error('Error fetching attempted quizzes', error);
+      }
+    );
+  }
+
   fetchQuiz() {
     this.quizSearched = true;
+    console.log('Entered Quiz ID:', this.quizId);
+    this.hasAttemptedQuiz = this.attemptedQuizzes.some(quiz => quiz.quizID === Number(this.quizId));
+    console.log('Has attempted quiz:', this.hasAttemptedQuiz);
+    if (this.hasAttemptedQuiz) {
+      this.quizFound = false;
+      return;
+    }
     this.http.get(`https://localhost:44367/api/QuizAttempts/WithOptions/${this.quizId}`).subscribe(
       (res: any) => {
         console.log('API Response:', res);
@@ -209,6 +266,10 @@ export class QuizAttemptComponent implements OnInit {
   }
 
   startQuiz() {
+    if (this.hasAttemptedQuiz) {
+      alert('You have already attempted the quiz.');
+      return;
+    }
     this.showQuizAttempt = true;
     this.currentQuestionIndex = 0;
     this.currentQuestion = this.questions[this.currentQuestionIndex];
@@ -274,11 +335,10 @@ export class QuizAttemptComponent implements OnInit {
       Score: this.score
     };
 
-    this.http.post('https://localhost:44367/api/QuizAttempts', quizAttempt)
-      .subscribe(response => {
-        console.log('Quiz attempt saved successfully', response);
-      }, error => {
-        console.error('Error saving quiz attempt', error);
-      });
+    this.http.post('https://localhost:44367/api/QuizAttempts', quizAttempt).subscribe(response => {
+      console.log('Quiz attempt saved successfully', response);
+    }, error => {
+      console.error('Error saving quiz attempt', error);
+    });
   }
 }

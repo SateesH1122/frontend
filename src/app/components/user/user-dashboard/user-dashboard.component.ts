@@ -31,17 +31,19 @@ export class UserDashboardComponent implements OnInit {
   }
   fetchAttemptedQuizzes() {
     this.userID = this.userservice.getUser().userid;
+    console.log('Fetching attempted quizzes for userID: ', this.userID);
     this.http.get<any[]>(`https://localhost:44367/api/QuizAttempts/UserAttempts/${this.userID}`).subscribe(
       (res: any[]) => {
         console.log(res); // Check the console for the API response
-        if (this.attemptedQuizzes.length === 0) { }
+        if (res.length === 0) { }
         else {
           this.attemptedQuizzes = res.map((attempt: any) => ({
-            scorePercent: attempt.PercentageScore,
+            scorePercent: attempt.percentageScore,
             title: attempt.quizTitle,
             description: attempt.quizDescription,
           }));
         }
+        console.log(this.attemptedQuizzes);
       },
       (error) => {
         console.error('Error fetching attempted quizzes', error);

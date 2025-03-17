@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
+import { NavbarComponent } from "../../landing_page/navbar/navbar.component";
+import { FooterComponent } from "../../landing_page/footer/footer.component";
 
 
 interface Quiz {
@@ -15,7 +17,7 @@ interface Quiz {
 }
 @Component({
   selector: 'app-delete-quiz',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './delete-quiz.component.html',
   styleUrl: './delete-quiz.component.css'
 })

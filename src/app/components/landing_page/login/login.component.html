@@ -56,7 +56,12 @@
       </svg>
     </div>
     <div *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched" class="error">
-      Password is required.
+      Password should contain at least<br>
+      - 6 characters<br>
+      - an uppercase letter<br>
+      - a lowercase letter<br>
+      - a special character and<br>
+      - a number
     </div>
   </div>
   <button type="submit" class="button-submit" [disabled]="loginForm.invalid"
