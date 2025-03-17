@@ -12,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
+
   isLoggedIn: boolean = false;
   userName: string = '';
   role: string = '';
@@ -44,5 +45,15 @@ export class NavbarComponent {
     this.isLoggedIn = false;
     this.userservice.setUser(0, '', '', '');
     this.navigateTo('');
+  }
+
+  contactus() {
+    if (this.isLoggedIn) {
+      this.navigateTo('contact');
+    }
+    else {
+      alert('Please login to access this feature');
+      this.navigateTo('');
+    }
   }
 }
