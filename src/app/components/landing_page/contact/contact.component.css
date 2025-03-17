@@ -65,10 +65,8 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* Input Placeholder */
-.contact input::placeholder,
-.contact textarea::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+.contact input {
+  cursor: not-allowed;
 }
 
 /* Input Focus */

@@ -5,7 +5,6 @@
     <li *ngIf="isLoggedIn && role=='Admin'" (click)="navigateTo('dashboard')"><a>Dashboard</a></li>
     <li *ngIf="isLoggedIn && role=='Student'" (click)="navigateTo('user-dashboard')"><a>Dashboard</a></li>
     <li *ngIf="!isLoggedIn" (click)="navigateTo('about')"><a>About Us</a></li>
-    <li *ngIf="!isLoggedIn" (click)="navigateTo('contact')"><a>Contact</a></li>
     <li *ngIf="isLoggedIn" class="profile-menu">
       <a class="profile-link">
         {{ userName }}
@@ -15,6 +14,7 @@
         <a class="dropdown-menu-item" (click)="deleteAccount()">Delete Account</a>
       </ul>
     </li>
+    <li (click)="contactus()"><a>Contact</a></li>
     <li *ngIf="isLoggedIn" (click)="logout()"><a>Logout</a></li>
   </ul>
 </nav>
