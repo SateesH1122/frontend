@@ -12,6 +12,7 @@ import { ContactComponent } from './components/landing_page/contact/contact.comp
 import { HomeComponent } from './components/landing_page/home/home.component';
 import { AuthGuard } from './services/auth.guard';
 import { ProfileComponent } from './components/user/profile/profile.component';
+
 export const routes: Routes = [
   { path: '', component: HomeComponent, },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },

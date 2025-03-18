@@ -13,17 +13,17 @@ import { HttpClient } from '@angular/common/http';
 })
 export class NavbarComponent {
 
-  isLoggedIn: boolean = false;
+
   userName: string = '';
   role: string = '';
   userProfileImage: string = '';
   userID: number = 0;
 
-  constructor(private router: Router, private userservice: UserService, private http: HttpClient) {
+  constructor(private router: Router, public userservice: UserService, private http: HttpClient) {
     if (userservice.getUser().userid != 0) {
-      this.isLoggedIn = true; // Change this based on actual login state
       this.userName = userservice.getUser().username; // Replace with actual username
       this.role = userservice.getUser().role;
+      this.userID = userservice.getUser().userid;
     }
   }
   navigateTo(route: string) {
@@ -35,20 +35,16 @@ export class NavbarComponent {
       console.log('Deleting user with ID ', this.userID);
       this.http.delete(`https://localhost:44367/api/Users/${this.userID}`).subscribe(response => {
         console.log('User deleted successfully', response);
-        this.logout();
+        this.userservice.logout();
       }, error => {
         console.error('Error deleting user', error);
       });
     }
   }
-  logout() {
-    this.isLoggedIn = false;
-    this.userservice.setUser(0, '', '', '');
-    this.navigateTo('');
-  }
+
 
   contactus() {
-    if (this.isLoggedIn) {
+    if (this.userservice.isLoggedIn) {
       this.navigateTo('contact');
     }
     else {

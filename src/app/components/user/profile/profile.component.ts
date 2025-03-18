@@ -59,7 +59,7 @@ export class ProfileComponent implements OnInit {
       (res) => {
         console.log('Profile updated successfully', res);
         alert('Profile updated successfully');
-        this.userservice.setUser(this.userId, this.userservice.getUser().role, this.username, this.email);
+        this.userservice.setUser(this.userId, this.userservice.getUser().role, this.username, this.email, this.userservice.getUser().token);
         this.fetchUserProfile();
       },
       (error) => {

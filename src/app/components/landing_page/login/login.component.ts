@@ -68,7 +68,8 @@ export class LoginComponent {
       this.http.post('https://localhost:44367/api/Users/Login', credentials)
         .subscribe((response: any) => {
           console.log('Login successful', response);
-          this.userService.setUser(response.userid, response.role, response.username, response.email); // Store the user ID
+          this.userService.isLoggedIn = true;
+          this.userService.setUser(response.userid, response.role, response.username, response.email, response.token); // Store the user ID
           if (response.role === 'Admin') {
             this.router.navigate(['/dashboard']);
           } else if (response.role === 'Student') {
